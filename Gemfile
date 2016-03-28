@@ -24,6 +24,9 @@ gem 'figaro', '0.7.0'
 gem 'devise'
 gem "mini_magick"
 gem 'searchkick', '0.6.3'
+gem 'azure', '0.6.4'
+gem 'carrierwave-azure'
+
 gem 'spring', group: :development
 
 # bundle exec rake doc:rails generates the API under doc/api.
