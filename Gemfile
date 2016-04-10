@@ -25,6 +25,7 @@ gem 'devise'
 gem "mini_magick"
 gem 'searchkick', '0.6.3'
 gem 'azure', '0.6.4'
+gem 'pg'
 gem 'carrierwave-azure'
 
 gem 'spring', group: :development
