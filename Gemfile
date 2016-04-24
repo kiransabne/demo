@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.1.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'
 # Use sqlite3 as the database for Active Record
@@ -25,9 +25,9 @@ gem 'devise'
 gem "mini_magick"
 gem 'searchkick', '0.6.3'
 gem 'azure', '0.6.4'
-gem 'pg'
 gem 'carrierwave-azure'
-
+gem 'social-share-button'
+gem 'puma', group: :production
 gem 'spring', group: :development
 
 # bundle exec rake doc:rails generates the API under doc/api.

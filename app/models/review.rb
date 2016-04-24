@@ -1,8 +1,8 @@
 class Review < ActiveRecord::Base
 	belongs_to :user
-	belongs_to :restaurant
+	belongs_to :reviewable, polymorphic: true	
 
-	validates :rating, :comment, presence: true
+	validates :rating, :content, presence: true
 	validates :rating, numericality: {
 		only_integer: true,
 		greater_than_or_equal_to: 1,

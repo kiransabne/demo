@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-8">
+      <br>
+      <br>
+     <% if @reviews.blank? %>
+      <h3> No reviews Yet. Be the first to give a reviews and help others</h3>
+    <% else %>
+      <h2> Reviews.</h2>
+      <table class="table">
+        <thead>
+          <tr>
+
+            <th class="col-md-3"></th>
+            <th class="col-md-9"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @reviews.each do |review| %>
+              <tr>
+                <td>
+                    <div class="img-rounded">
+                    </div> 
+
+                  
+                    <p><%= review.created_at.strftime("%-d/%-m/%-y") %></p>
+                </td>
+
+                <td>
+                    <h4><strong>
+                        <%= "#{review.user.first_name.capitalize} #{review.user.last_name.capitalize[0]}." %>
+                    </strong>
+                    </h4>
+                      <div class="star-rating" data-score= <%= review.rating %> ></div>
+                      <h5><p><%= h(review.content).gsub(/\n/, '<br/>').html_safe %></p></h5>
+
+                      <% if user_signed_in? %>
+                        <% if (review.user_id == current_user.id) || (current_user.id.admin?) %>
+                          <%= link_to "Edit", edit_shop_review_path(@shop, review) %>
+                          <%= link_to "Delete", shop_review_path(@shop, review), method: :delete %>
+                          <% end %>
+                        <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
+    </div>
+<p>
+  <strong>Name:</strong>
+  <%= @shop.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @shop.address %>
+</p>
+
+
+<%= link_to 'Back', shops_path %>
+
+<script>
+	$('.star-rating').raty({
+		path: 'http://review1.blob.core.windows.net/stars', 
+		readOnly: true,
+		score: function() {
+			return $(this).attr('data-score')
+		}
+	});
+</script>

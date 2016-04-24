@@ -1,5 +1,15 @@
-<h1>Editing Review</h1>
 
-<%= render 'form' %>
+<%= form_for [@review_type, @review] do |f| %>
 
-<%= link_to 'Back', restaurant_path(@restaurant) %>
+<div id="star-rating"></div>
+
+  <%= render 'form' %>
+
+<% end %>
+
+<script>
+  $('#star-rating').raty({
+    path: 'http://review1.blob.core.windows.net/stars',
+    scoreName: 'review[rating]'
+  });
+</script>

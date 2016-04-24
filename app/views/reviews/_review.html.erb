@@ -1,0 +1,47 @@
+<% if @reviews.blank? %>
+      <h3> No reviews Yet. Be the first to give a reviews and help others</h3>
+    <% else %>
+      <table class="table">
+        <thead>
+          <tr>
+
+            <th class="col-md-3"></th>
+            <th class="col-md-9"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+              <tr>
+                <td>
+                    <div class="img-rounded">
+                    </div> 
+
+                  
+                    <p><%= review.created_at.strftime("%-d/%-m/%-y") %></p>
+                </td>
+
+                <td>
+                    <h4><strong>
+                        <%= "#{review.user.first_name.capitalize} #{review.user.last_name.capitalize[0]}." %>
+                    </strong>
+                    </h4>
+                      <div class="star-rating" data-score= <%= review.rating %> ></div>
+                      <h5><p><%= h(review.content).gsub(/\n/, '<br/>').html_safe %></p></h5>
+
+                      <% if user_signed_in? %>
+                        <% if (review.user_id == current_user.id) || (current_user.admin?) %>
+
+                        <%= link_to "Edit", edit_restaurant_review_path(@restaurant, review) %>
+
+
+                          <%= link_to "Delete", restaurant_review_path(@restaurant, review), method: :delete %>
+                          <%= social_share_button_tag(@post.title) %>
+
+                          <% end %>
+                        <% end %>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+    <% end %>
+<% end %>

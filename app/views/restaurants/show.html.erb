@@ -6,9 +6,7 @@
       <%= @restaurant.name %>
     </h2>
 
-    <div class="star-rating" data-score= <%= @avg_rating %> ></div>
-    <p><%= "#{@reviews.length} reviews" %></p>
-
+    <%= social_share_button_tag(@restaurant.name) %>
 
     <p>
       <strong>Description:</strong>
@@ -65,44 +63,59 @@
   </div>
 
   <div class="col-md-9">
-    <% if @reviews.blank? %>
+  <h2> Reviews of <%= @restaurant.name %></h2>
+  <% if @reviews.blank? %>
       <h3> No reviews Yet. Be the first to give a reviews and help others</h3>
     <% else %>
-    	<table class="table">
-    		<thead>
-    			<tr>
-    				<th class="col-md-3"></th>
-    				<th class="col-md-9"></th>
-    			</tr>
-    		</thead>
+      <table class="table">
+        <thead>
+          <tr>
 
-    		<tbody>
-      			<% @reviews.each do |review| %>
-      				<tr>
-      					<td>
-      						<h4>
-      							<%= "#{review.user.first_name.capitalize} #{review.user.last_name.capitalize[0]}." %>
-      						</h4>
-      						<p><%= review.created_at.strftime("%-d/%-m/%-y") %></p>
-      					</td>
+            <th class="col-md-3"></th>
+            <th class="col-md-9"></th>
+          </tr>
+        </thead>
 
-      					<td>
-      						<div class="star-rating" data-score= <%= review.rating %> ></div>
-        					<p><%= h(review.comment).gsub(/\n/, '<br/>').html_safe %></p>
+        <tbody>             
+         <% @reviews.each do |review| %>
 
-        					<% if user_signed_in? %>
-        						<% if (review.user == current_user) || (current_user.admin?) %>
-        							<%= link_to "Edit", edit_restaurant_review_path(@restaurant, review) %>
-        							<%= link_to "Delete", restaurant_review_path(@restaurant, review), method: :delete %>
-        							<% end %>
-        						<% end %>
-        				</td>
-        			</tr>
-        		<% end %>
-        	</tbody>
+              <tr>
+                <td>
+                    <div class="img-rounded">
+                    </div> 
+
+                      <p><%= review.created_at.strftime("%-m/%-d/%y") %></p>
+
+                </td>
+
+                <td>
+                    <h4><strong>
+                        <%= "#{review.user.first_name.capitalize} #{review.user.last_name.capitalize[0]}." %>
+                    </strong>
+                    </h4>
+                      <div class="star-rating" data-score= <%= review.rating %> ></div>
+                      <h5><p><%= h(review.content).gsub(/\n/, '<br/>').html_safe %></p></h5>
+						<%= social_share_button_tag(@restaurant.reviews) %>
+
+                      <% if user_signed_in? %>
+                        <% if (review.user_id == current_user.id) || (current_user.admin?) %>
+
+                        <%= link_to "Edit", edit_restaurant_review_path(@restaurant, review) %>
+
+
+                          <%= link_to "Delete", restaurant_review_path(@restaurant, review), method: :delete %>
+                          <% if signed_in? %>
+                <%= link_to "Reply", "#" %>
+                          <% end %>
+                        <% end %>
+                </td>
+              </tr>
+          </tbody>
+          <% end %>
         </table>
     <% end %>
-  </div>
+<% end %>
+
 </div>
 
 <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |

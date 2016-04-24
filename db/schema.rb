@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160320201453) do
+ActiveRecord::Schema.define(version: 20160413210121) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string   "name"
@@ -30,11 +30,22 @@ ActiveRecord::Schema.define(version: 20160320201453) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "rating"
-    t.text     "comment"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "content"
     t.integer  "user_id"
-    t.integer  "restaurant_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "reviewable_id"
+    t.string   "reviewable_type"
+  end
+
+  add_index "reviews", ["reviewable_id", "reviewable_type"], name: "index_reviews_on_reviewable_id_and_reviewable_type"
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id"
+
+  create_table "shops", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,6 +64,10 @@ ActiveRecord::Schema.define(version: 20160320201453) do
     t.boolean  "admin",                  default: false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

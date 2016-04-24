@@ -3,7 +3,7 @@ class Restaurant < ActiveRecord::Base
 
 	searchkick
 
-	has_many :reviews
+	has_many :reviews, as: :reviewable, dependent: :destroy
 
 	validates :name, :address, :phone, :email, presence: true
 end
